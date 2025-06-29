@@ -1,0 +1,35 @@
+{
+  "name": "apex-mutation-agent",
+  "version": "1.0.0",
+  "main": "index.js",
+  "bin": {
+    "apexmutate": "./run.js",
+    "review-pr": "./scripts/review-pr.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "pdf": "node convertToPdf.js",
+    "export:metrics": "node exportMetrics.js",
+    "generate:index": "node generateIndexPage.js",
+    "review-pr": "node scripts/review-pr.js",
+    "prepare": "husky install"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@actions/core": "^1.11.1",
+    "@actions/github": "^6.0.1",
+    "axios": "^1.10.0",
+    "dotenv": "^16.5.0",
+    "fs-extra": "^11.3.0",
+    "openai": "^5.7.0",
+    "readline-sync": "^1.4.10",
+    "simple-git": "^3.28.0"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "markdown-pdf": "^11.0.0"
+  }
+}

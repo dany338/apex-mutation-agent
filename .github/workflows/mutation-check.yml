@@ -1,0 +1,141 @@
+name: ⚙️ Apex Mutation Agent
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+    branches:
+      - "**"
+
+jobs:
+  run-mutation-agent:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout del repositorio
+        uses: actions/checkout@v3
+
+      - name: 📦 Instalar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: 🧰 Instalar dependencias
+        run: npm install
+
+      - name: 🔑 Configurar clave OpenAI
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          echo "OPENAI_API_KEY=${OPENAI_API_KEY}" > .env
+
+      - name: 🧠 Ejecutar agente de mutaciones
+        run: |
+          chmod +x run.js
+          node run.js DiscountCalculator.cls
+
+      - name: 📤 Subir reporte como artefacto
+        uses: actions/upload-artifact@v3
+        with:
+          name: reporte-mutaciones
+          path: mutations/*.md
+
+      - name: 🖨 Convertir Markdown a PDF
+        run: |
+          npm install --save-dev markdown-pdf
+          node convertToPdf.js
+
+      - name: 📤 Subir PDF como artefacto
+        uses: actions/upload-artifact@v3
+        with:
+          name: reporte-mutaciones-pdf
+          path: mutations/*.pdf
+
+      - name: 📤 Subir todos los artefactos
+        uses: actions/upload-artifact@v3
+        with:
+          name: mutation-results
+          path: |
+            mutations/*.md
+            mutations/*.pdf
+            mutations/*.json
+
+      - name: 📦 Subir métricas y reporte histórico
+        uses: actions/upload-artifact@v3
+        with:
+          name: mutation-metrics
+          path: |
+            mutations/*.md
+            mutations/*.pdf
+            mutations/*.json
+
+      - name: 🧾 Comentar métricas en el Pull Request
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const path = 'mutations/mutant-metrics.md';
+
+            if (!fs.existsSync(path)) {
+              core.warning('No se encontró el archivo de métricas');
+              return;
+            }
+
+            const content = fs.readFileSync(path, 'utf8');
+            const maxLength = 6000;
+
+            const body = content.length > maxLength
+              ? `📊 **Mutant Metrics Summary** (truncado por tamaño):\n\n` + content.slice(0, maxLength) + '\n\n...'
+              : `📊 **Mutant Metrics Summary:**\n\n${content}`;
+
+            const comments = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            const botComment = comments.data.find(c => c.user.type === 'Bot' && c.body.includes('📊 **Mutant Metrics Summary'));
+
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body
+              });
+            }
+
+      - name: 📤 Generar HTML y CSV desde JSON
+        run: |
+          node exportMetrics.js
+
+      - name: 📦 Subir reporte HTML y CSV como artefacto
+        uses: actions/upload-artifact@v3
+        with:
+          name: mutation-reports
+          path: |
+            mutations/report.html
+            mutations/report.csv
+
+      - name: 🧭 Generar index.html de reportes
+        run: npm run generate:index
+
+      - name: 🚀 Publicar en GitHub Pages (gh-pages)
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./mutations
+          publish_branch: gh-pages
+          destination_dir: .
+          keep_files: false
