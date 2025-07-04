@@ -8,6 +8,7 @@ module.exports = {
   // apexFolderPath: "../DiscountCalculatorApp/force-app/main/default/classes",
   apexFolderPath: "../apex-mutation-test/force-app/main/default",
   apexFolderProject: "../apex-mutation-test", // DiscountCalculatorApp
+  apexFileName: "AccountPhoneChangeTrigger.cls", // AccountPhoneChangeTrigger
   apexFolderApex: "./apex",
   backupFolderPath: "./backup/",
   mutationsFolderPath: "./mutations/",

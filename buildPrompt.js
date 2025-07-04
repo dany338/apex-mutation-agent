@@ -31,18 +31,22 @@ function getTestClassPath(apexFilePath) {
   const baseName = path.basename(apexFilePath).replace(/\.(cls|trigger)/, "");
   const testClassName = `${baseName}Test.cls`;
   // Obtener el path relativo del trigger y cambiarlo a 'classes'
-  const classDir = apexFilePath.includes("trigger")
-    ? path.join(apexFolderPath, "classes", testClassName)
-    : path.join(
-        apexFolderPath,
-        apexFilePath.replace(path.basename(apexFilePath), testClassName)
-      );
+  const classDir =
+    apexFilePath.includes("trigger") || apexFilePath.includes("Trigger")
+      ? path.join(apexFolderPath, "classes", testClassName)
+      : path.join(
+          apexFolderPath,
+          apexFilePath.replace(path.basename(apexFilePath), testClassName)
+        );
 
   return fs.existsSync(classDir) ? classDir : null;
 }
 
 async function buildPromptFromApex(apexFileName) {
-  const apexPath = path.join(apexFolderPath, apexFileName);
+  const isTiggerFile =
+    apexFileName.includes("Trigger") || apexFileName.endsWith(".trigger");
+  const folderApex = isTiggerFile ? "triggers" : "classes";
+  const apexPath = path.join(apexFolderPath, folderApex, apexFileName);
   const testPath = getTestClassPath(apexFileName);
 
   if (!testPath) {

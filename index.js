@@ -1,5 +1,10 @@
 const axios = require("axios");
-const { apexFolderPath, openaiModel, openaiApiKey } = require("./config");
+const {
+  apexFolderPath,
+  openaiModel,
+  openaiApiKey,
+  apexFileName,
+} = require("./config");
 const { buildPromptFromApex } = require("./buildPrompt");
 const { sendPromptToOpenAI } = require("./openaiClient");
 const { parseMutationsFromText } = require("./mutationParser");
@@ -63,9 +68,9 @@ async function testOpenAI() {
 }
 
 async function main() {
-  const apexFile = "DiscountCalculator.cls";
+  // const apexFileName = "DiscountCalculator.cls";
 
-  const prompt = await buildPromptFromApex(apexFile);
+  const prompt = await buildPromptFromApex(apexFileName);
   console.log("Prompt generado para OpenAI:\n");
   console.log(prompt);
   console.log(`✉️ Enviando a OpenAI...\n`);
@@ -75,12 +80,14 @@ async function main() {
   const mutations = parseMutationsFromText(response);
   console.log("\n🎯 Mutaciones extraídas:", mutations);
 
+  const isTiggerFile = apexFileName.includes("Trigger");
+  const folderApex = isTiggerFile ? "triggers" : "classes";
   const originalContent = await fs.readFile(
-    path.join(apexFolderPath, apexFile),
+    path.join(apexFolderPath, folderApex, apexFileName),
     "utf8"
   );
   const generatedFiles = await applyMutations(
-    apexFile,
+    apexFileName,
     originalContent,
     mutations
   );
@@ -90,7 +97,11 @@ async function main() {
     console.log(`- ${file.file}: ${file.description}`);
   }
 
-  await testMutations(apexFile, "DiscountCalculatorTest.cls", generatedFiles);
+  await testMutations(
+    apexFileName,
+    "DiscountCalculatorTest.cls",
+    generatedFiles
+  );
 }
 
 main();

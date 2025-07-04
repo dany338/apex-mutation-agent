@@ -99,4 +99,7 @@ async function generateIndexPage() {
   console.log(`✅ index.html con gráficas generado en: ${indexPath}`);
 }
 
-generateIndexPage();
+// generateIndexPage();
+module.exports = {
+  generateIndexPage,
+};

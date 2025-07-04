@@ -64,4 +64,7 @@ async function exportMetrics() {
   console.log(`- CSV:  ${csvPath}`);
 }
 
-exportMetrics();
+// exportMetrics();
+module.exports = {
+  exportMetrics,
+};

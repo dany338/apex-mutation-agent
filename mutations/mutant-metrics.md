@@ -2,4 +2,4 @@
 
 | Clase | Mutaciones | Pasaron ✅ | Fallaron ❌ | % Efectividad |
 |-------|------------|-----------|-------------|----------------|
-| DiscountCalculator.cls | 5 | 0 | 5 | 100% |
+| AccountPhoneChangeTrigger.trigger | 5 | 0 | 5 | 100% |

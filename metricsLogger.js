@@ -37,9 +37,12 @@ async function updateMutantMetrics(allResults) {
       effectiveness,
     });
   });
-
+  console.log("Actualizando métricas de mutaciones...");
   await fs.writeFile(metricsPath, lines.join("\n"));
   await fs.writeJson(jsonPath, jsonData, { spaces: 2 });
+  console.log("Métricas de mutaciones actualizadas.");
+  console.log(`Reporte guardado en: ${metricsPath}`);
+  console.log(`Datos JSON guardados en: ${jsonPath}`);
 }
 
 module.exports = {

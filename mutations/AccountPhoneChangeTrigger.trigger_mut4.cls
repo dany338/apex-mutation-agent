@@ -6,7 +6,7 @@ trigger AccountPhoneChangeTrigger on Account (before update) {
             change.Account__c = acc.Id;
             change.OldPhone__c = oldAcc.Phone;
             change.NewPhone__c = acc.Phone;
-            insert change;
+            insert change; // Insert the PhoneChange__c record to log the phone change
         }
     }
 }

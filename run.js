@@ -80,7 +80,9 @@ async function runFullAgent(apexFile) {
     return;
   }
 
-  const originalPath = path.join(apexFolderPath, apexFile);
+  const isTiggerFile = apexFile.includes("Trigger");
+  const folderApex = isTiggerFile ? "triggers" : "classes";
+  const originalPath = path.join(apexFolderPath, folderApex, apexFile);
   const originalContent = await fs.readFile(originalPath, "utf8");
 
   const generatedFiles = await applyMutations(
