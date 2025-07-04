@@ -7,6 +7,10 @@ const {
   backupFolderPath,
 } = require("./config");
 
+function isTriggerFile(filePath) {
+  return filePath.endsWith("Trigger");
+}
+
 async function runTestAgainstMutation(
   baseClassName,
   testClassName,
@@ -14,7 +18,10 @@ async function runTestAgainstMutation(
 ) {
   const mutationPath = path.join(mutationsFolderPath, mutationFileName);
   const originalPath = path.join(backupFolderPath, `${baseClassName}.cls`);
-  const classMetaFile = `${baseClassName}.cls-meta.xml`;
+  // aca identificar si es un trigger o una clase normal porque puede ser ejemplo: AccountPhoneChangeTrigger.trigger-meta.xml o DiscountCalculator.cls-meta.xml entonces classMetaFile debe tomar el valor correcto:
+  const classMetaFile = `${baseClassName}.${
+    isTriggerFile ? "trigger" : "cls"
+  }-meta.xml`;
 
   try {
     // Sobrescribir clase original con la mutada
@@ -29,7 +36,10 @@ async function runTestAgainstMutation(
     //   `sfdx force:source:deploy -p "${apexFolderPath}" --sourcepath "${baseClassName}.cls" --json --loglevel fatal`,
     //   { stdio: "inherit" }
     // );
-    execSync(`sf project deploy start --source-dir ${apexFolderPath}/${baseClassName}.cls`, { stdio: "ignore" });
+    execSync(
+      `sf project deploy start --source-dir ${apexFolderPath}/${baseClassName}.cls`,
+      { stdio: "ignore" }
+    );
 
     // Ejecutar test
     const output = execSync(
@@ -47,7 +57,13 @@ async function runTestAgainstMutation(
         path.join(apexFolderPath, `${baseClassName}.cls`),
         originalCode
       );
-      execSync(`sf project deploy start --source-dir ${apexFolderPath}/${baseClassName}.cls`, { stdio: "ignore" });
+      execSync(
+        `sf project deploy start --source-dir ${apexFolderPath}/${baseClassName}.cls`,
+        { stdio: "ignore" }
+      );
+      // execSync(`sfdx force:source:deploy -m "ApexClass:${baseClassName}"`, {
+      //   stdio: "inherit",
+      // });
     } catch (restoreErr) {
       console.error("❌ Error restaurando clase original:", restoreErr.message);
     }

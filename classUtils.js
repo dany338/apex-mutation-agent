@@ -23,10 +23,10 @@ function detectApexClassType(content) {
 function getPromptTemplateFile(classType) {
   const map = {
     batch: "prompt-batch.txt",
-    trigger: "prompt-trigger.txt",
+    trigger: "prompt-trigger-es.txt",
     controller: "prompt-controller.txt",
     schedulable: "prompt-schedulable.txt",
-    default: "basePrompt.txt",
+    default: "basePromptEn.txt", // basePromptEn.txt
   };
   return map[classType] || map.default;
 }

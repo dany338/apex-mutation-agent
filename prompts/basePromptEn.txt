@@ -1,105 +1,105 @@
 
-📌 You are and act as an expert in unit testing in Apex (Salesforce) and mutation generation to assess test effectiveness.
+📌 You are and act as an expert in unit testing in Apex (Salesforce) and mutation generation to evaluate the effectiveness of tests.
 
-📌 Your task is to analyze the following source code, which contains two clearly defined blocks:
+📌 Your task is to analyze the following source code, which contains two clearly delimited blocks:
 
-**Apex Class:**
+Apex Class:
 ```apex
 ===APEX_CLASS===
 ```
 End Apex Class
 
-**Test Class:**
+Test Class:
 ```apex
 ===TEST_CLASS===
 ```
 End Test Class
 
 📌 Your task:
-1. Propose relevant mutations for this context (changes in operators, conditions, values).
-2. Indicate the affected line and the suggested mutation type.
+1. Propose relevant mutations for this context (operator changes, conditions, values).
+2. Indicate the affected line and the suggested type of mutation.
 3. Explain whether these mutations should cause the original test to fail.
-4. You must propose up to 5 *destructive mutations* (i.e., that cause at least one defined test to fail) that affect **only** the `Apex Class` block. NEVER modify or analyze the `Test Class` block.
+4. You must propose up to 5 *destructive mutations* (i.e., that cause at least one of the defined tests to fail) that affect only the Apex Class block. NEVER modify or analyze the Test Class block.
 5. Ensure the mutations are varied and representative of common errors in Apex.
 6. Do not repeat mutations already suggested in the current context.
-7. Consider mutations that may be relevant to business logic and validations present in the code.
+7. Consider mutations that may be relevant to the business logic and validations present in the code.
 8. Do not include mutations already present in the original code.
-9. Ensure the mutations are coherent with the data types and structures used in Apex.
-10. Do not include trivial mutations or ones that don’t add value to the evaluation of unit tests.
-11. Consider mutations that can affect both business logic and data validations.
-12. Ensure mutations are understandable and easy to implement in the Apex context.
-13. Do not include redundant mutations or those that don’t significantly alter the code logic.
-14. Ensure the mutations are relevant to the context of the Apex class and its associated test.
-15. Consider mutations that can help detect common mistakes in business logic and data validations in Apex.
+9. Ensure that the mutations are consistent with the data types and structures used in Apex.
+10. Do not include trivial mutations or ones that do not add value to the unit test evaluation.
+11. Consider mutations that may affect both business logic and data validations.
+12. Ensure that mutations are understandable and easy to implement in the Apex context.
+13. Do not include redundant mutations or those that do not produce a significant change in the code logic.
+14. Ensure that mutations are relevant to the context of the Apex class and its associated test.
+15. Consider mutations that may be useful for detecting common errors in business logic and data validations in Apex.
 16. Ensure the mutations are varied and representative of common errors in Apex.
-17. Do not include mutations already present in the original code.
+17. Do not include mutations that are already present in the original code.
 
 📌 Mandatory rules:
 1. All mutations must be *destructive*: at least one test must fail as a result of the change.
-2. Each mutation must be presented following **exactly** the detailed format below.
-3. Make sure the affected line is correctly numbered relative to the `Apex Class` block:
+2. Each mutation must be presented following exactly the format detailed below.
+3. Make sure the affected line is correctly numbered relative to the Apex Class block:
    - Consider the line starting with `public class` as line 1:
      ```apex
-     public class ClassName
+       public class ClassName
      ```
-   - The line count should begin from this line and cover the entire content of the `Apex Class:` block until its closing.
-   - Do NOT include external lines or tags like `Apex Class:` or the triple backticks.
-   - This is the total number of lines continuing the Apex Class: `===TOTAL_LINES===`.
+   - The line count should start from this line and cover the entire content of the Apex Class block until its end.
+   - Do NOT include external lines or tags like Apex Class: or the triple backticks ```apex.
+   - The total number of lines in the Apex Class is: `===TOTAL_LINES===`.
 
-4. Do not generate trivial, redundant, or already implied mutations in the original code.
-5. If you cannot generate 5 valid mutations without breaking these rules, generate fewer. Do NOT include invalid mutations just to meet the count.
+4. Do not generate trivial, redundant mutations or those already implied in the original code.
+5. If you cannot generate 5 useful mutations without breaking these rules, generate fewer. Do not include invalid mutations just to reach the number.
 
 ✅ STRICT format for each mutation:
-Use **exactly** the following format for each one:
+Use exactly the following format for each:
 ```yaml
 ### 💥 Mutation [number]:
 
-📝 Description: [action verb + what is changed + why it's relevant or what effect it produces]
+📝 Description: [action verb + what is changed + why it is relevant or what effect it produces]
 
-📍 Affected line: [number relative to the `Apex Class:` block]
+📍 Affected line: [number relative to the `Apex Class:` block and keep in mind the Apex Class has: ===TOTAL_LINES=== lines to ensure line consistency]
 
 🧠 Mutation type: [type: operator change, value change, logic, return, condition, etc.]
 
-💥 Expected impact: [name(s) of test method(s) expected to fail due to this mutation, with brief explanation]
+💥 Expected impact: [name(s) of the test methods that should fail with this mutation, with a brief explanation]
 
 🔁 Mutated code line:
-[TODO: show only the specific modified line]
+[TODO: show here only the specific modified line]
 ```
 
 🔁 Original code line:
-[TODO: show only the original line as it was]
+[TODO: show here only the original line as it was]
 ```
 
 🛡️ Additional Evaluation: Apex Best Practices
-Besides applying mutations, you must identify if the `Apex Class` block adheres to the following key best practices (taken from Salesforce’s official guide):
+In addition to applying mutations, you must identify whether the Apex Class block complies with the following key best practices (taken from Salesforce's official guide):
 
-1. Use of Handler pattern (no logic directly in triggers).
+1. Use of the Handler pattern (no logic directly in triggers).
 2. Use of Return Early to avoid unnecessary nesting.
 3. Avoid hardcoded values (use Custom Metadata or Labels).
 4. Avoid DML/SOQL inside loops.
-5. Proper bulkification of code.
+5. Proper bulkification of the code.
 6. Meaningful and explicit exception handling.
 7. Use of logs for traceability.
 8. Separation of declarative and programmatic logic.
-9. Test coverage above 75% with real cases.
+9. Test coverage over 75% with real cases.
 
-If any of these best practices is not met, mention it at the end of your analysis as part of a block:
+If any of these best practices are not met, you must mention it at the end of the analysis as part of a block:
 ```yaml
 ### 🧠 Best Practices Evaluation - Example:
 
-- [x] Uses Return Early correctly  
-- [ ] Has hardcoded values (should use Custom Metadata)  
-- [ ] Handles exceptions adequately  
-- [x] Bulkified code  
-- [ ] Logs errors or useful logs  
+- [x] Uses Return Early correctly
+- [ ] Has hardcoded values (better to use Custom Metadata)
+- [ ] Handles exceptions adequately
+- [x] Code is bulkified
+- [ ] Logs errors or useful logs
 ...
 ```
 
-🚫 Examples of mistakes to avoid:
-❌ Incorrect affected line number (use line count relative to the `Apex Class:` block as explained).  
-❌ Mutations on the `Test Class:` block (forbidden).  
-❌ Mutations that do not change business logic.  
-❌ Only changing the assert message (that doesn’t break the test).  
-❌ Invalid mutations in Apex or those that won’t compile.
+🚫 Example of mistakes to avoid:
+❌ Incorrect affected line number (use line count relative to the Apex Class block as explained).  
+❌ Mutations on the Test Class block (forbidden).  
+❌ Mutations that do not change the business logic.  
+❌ Changing only the assert message (that does not break the test).  
+❌ Invalid mutations in Apex or ones that do not compile.
 
-Ready to proceed? Analyze the code and generate up to 5 valid destructive mutations following this format, and end with the best practices evaluation.
+Ready to process? Analyze the code and generate up to 5 valid destructive mutations according to this format, and end with the best practices evaluation.

@@ -7,7 +7,10 @@ function parseMutationsFromText(text) {
   let captureOriginal = false;
 
   for (const line of lines) {
-    if (line.startsWith("### 💥 Mutación")) {
+    if (
+      line.startsWith("### 💥 Mutación") ||
+      line.startsWith("### 💥 Mutation")
+    ) {
       if (current.description) {
         mutations.push({ ...current });
         current = {};

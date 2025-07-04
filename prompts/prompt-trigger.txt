@@ -1,102 +1,105 @@
-📌 Eres un experto en Apex trigger - pruebas unitarias en Apex (Salesforce) y generación de mutaciones para evaluar la efectividad de los tests.
 
-📌 Tu tarea es analizar el siguiente código fuente que contiene dos bloques claramente delimitados:
+📌 You are and act as an expert in triggers and unit testing in Apex (Salesforce) and mutation generation to evaluate the effectiveness of tests.
 
-Clase Apex:
+📌 Your task is to analyze the following source code, which contains two clearly delimited blocks:
+
+Apex Class:
 ```apex
 ===APEX_CLASS===
 ```
-Final Clase Apex
-Clase Test:
+End Apex Class
+
+Test Class:
 ```apex
 ===TEST_CLASS===
 ```
-Final Clase Test
+End Test Class
 
-📌 Tu tarea:
-1. Proponer mutaciones relevantes para este contexto (cambios de operadores, condiciones, valores).
-2. Indicar línea afectada y tipo de mutación sugerida.
-3. Explicar si estas mutaciones deberían hacer fallar el test original.
-4. Debes proponer hasta 5 mutaciones destructivas (es decir, que hagan fallar al menos uno de los tests definidos) que afecten solo el bloque Clase Apex:. NUNCA modifiques ni analices el bloque Clase Test:.
-5. Asegúrate de que las mutaciones sean variadas y representativas de errores comunes en Apex.
-6. No repitas mutaciones ya sugeridas en el contexto actual.
-7. Considera mutaciones que puedan ser relevantes para la lógica de negocio y validaciones presentes en el código.
-8. No incluyas mutaciones que ya estén presentes en el código original.
-9. Asegúrate de que las mutaciones sean coherentes con el tipo de datos y estructuras utilizadas en Apex.
-10. No incluyas mutaciones que sean triviales o que no aporten valor a la evaluación de los tests unitarios.
-11. Considera mutaciones que puedan afectar tanto a la lógica de negocio como a las validaciones de datos.
-12. Asegúrate de que las mutaciones sean comprensibles y fáciles de implementar en el contexto de Apex.
-13. No incluyas mutaciones que sean redundantes o que no aporten un cambio significativo en la lógica del código.
-14. Asegúrate de que las mutaciones sean relevantes para el contexto de la clase Apex y su test asociado.
-15. Considera mutaciones que puedan ser útiles para detectar errores comunes en la lógica de negocio y validaciones de datos en Apex.
-16. Asegúrate de que las mutaciones sean variadas y representativas de errores comunes en Apex.
-17. No incluyas mutaciones que ya estén presentes en el código original.
+📌 Your task:
+1. Propose relevant mutations for this context (operator changes, conditions, values).
+2. Indicate the affected line and the suggested type of mutation.
+3. Explain whether these mutations should cause the original test to fail.
+4. You must propose up to 5 *destructive mutations* (i.e., that cause at least one of the defined tests to fail) that affect only the Apex Class block. NEVER modify or analyze the Test Class block.
+5. Ensure the mutations are varied and representative of common errors in Apex.
+6. Do not repeat mutations already suggested in the current context.
+7. Consider mutations that may be relevant to the business logic and validations present in the code.
+8. Do not include mutations already present in the original code.
+9. Ensure that the mutations are consistent with the data types and structures used in Apex.
+10. Do not include trivial mutations or ones that do not add value to the unit test evaluation.
+11. Consider mutations that may affect both business logic and data validations.
+12. Ensure that mutations are understandable and easy to implement in the Apex context.
+13. Do not include redundant mutations or those that do not produce a significant change in the code logic.
+14. Ensure that mutations are relevant to the context of the Apex class and its associated test.
+15. Consider mutations that may be useful for detecting common errors in business logic and data validations in Apex.
+16. Ensure the mutations are varied and representative of common errors in Apex.
+17. Do not include mutations that are already present in the original code.
 
-📌 Reglas obligatorias
-1. Todas las mutaciones deben ser destructivas: al menos un test debe fallar como consecuencia del cambio.
-2. Cada mutación debe presentarse siguiendo exactamente el formato detallado abajo.
-3. Asegúrate de que la línea afectada esté correctamente numerada relativamente al bloque Clase Apex:
-Considerar la línea donde empieza `public class` como la línea 1
-```apex
-  public class NombreDeLaClase
-```
-El conteo de líneas debe comenzar desde esa línea y abarcar todo el contenido del bloque Clase Apex: hasta su cierre.
-No incluyas líneas externas ni etiquetas como Clase Apex: o los backticks ```apex.
-Este es el numero total de lineas que contiene la Clase Apex: ===TOTAL_LINES===.
-4. No generes mutaciones triviales, redundantes, ni aquellas que ya están implícitas en el código original.
-5. Si no puedes generar 5 mutaciones útiles sin romper estas reglas, genera menos. No incluyas mutaciones inválidas solo para cumplir el número.
+📌 Mandatory rules:
+1. All mutations must be *destructive*: at least one test must fail as a result of the change.
+2. Each mutation must be presented following exactly the format detailed below.
+3. Make sure the affected line is correctly numbered relative to the Apex Class block:
+   - Consider the line starting with `public class` as line 1:
+     ```apex
+       public class ClassName
+     ```
+   - The line count should start from this line and cover the entire content of the Apex Class block until its end.
+   - Do NOT include external lines or tags like Apex Class: or the triple backticks ```apex.
+   - The total number of lines in the Apex Class is: `===TOTAL_LINES===`.
 
-✅ Formato ESTRICTO para cada mutación
-Usa exactamente el siguiente formato para cada una:
+4. Do not generate trivial, redundant mutations or those already implied in the original code.
+5. If you cannot generate 5 useful mutations without breaking these rules, generate fewer. Do not include invalid mutations just to reach the number.
+
+✅ STRICT format for each mutation:
+Use exactly the following format for each:
 ```yaml
-### 💥 Mutación [número]:
+### 💥 Mutation [number]:
 
-📝 Descripción: [descripción concreta del cambio en una sola línea usando la estructura: Verbo de acción + qué se cambia + por qué es relevante o qué efecto produce]
+📝 Description: [action verb + what is changed + why it is relevant or what effect it produces]
 
-📍 Línea afectada: [número relativo al bloque `Clase Apex:` y ten encuenta el que la Clase Apex tiene: ===TOTAL_LINES=== lineas para que sea coherente la linea a afectar]
+📍 Affected line: [number relative to the `Apex Class:` block and keep in mind the Apex Class has: ===TOTAL_LINES=== lines to ensure line consistency]
 
-🧠 Tipo de mutación: [tipo: cambio de operador, valor, lógica, retorno, condición, etc.]
+🧠 Mutation type: [type: operator change, value change, logic, return, condition, etc.]
 
-💥 Impacto esperado: [nombre(s) de los métodos de test que deberían fallar con esta mutación, con breve explicación]
+💥 Expected impact: [name(s) of the test methods that should fail with this mutation, with a brief explanation]
 
-🔁 Línea de código mutada:
-[TODO: mostrar aquí solo la línea específica que fue modificada]
+🔁 Mutated code line:
+[TODO: show here only the specific modified line]
 ```
 
-🔁 Línea de código original:
-[TODO: mostrar aquí solo la línea específica como esta estaba originalmente]
+🔁 Original code line:
+[TODO: show here only the original line as it was]
 ```
 
-🛡️ Evaluación adicional: Buenas prácticas de Apex
-Además de aplicar mutaciones, debes identificar si el bloque Clase Apex: cumple con las siguientes buenas prácticas clave (tomadas de la guía oficial de Salesforce):
+🛡️ Additional Evaluation: Apex Best Practices
+In addition to applying mutations, you must identify whether the Apex Class block complies with the following key best practices (taken from Salesforce's official guide):
 
-1. Uso del patrón Handler (no lógica directa en triggers).
-2. Uso de Return Early para evitar anidaciones innecesarias.
-3. Evitar valores hardcoded (usar Custom Metadata o Labels).
-4. Evitar DML/SOQL dentro de bucles.
-5. Bulkificación adecuada del código.
-6. Manejo de excepciones significativo y explícito.
-7. Uso de logs para trazabilidad.
-8. Separación de lógica declarativa y programática.
-9. Cobertura de test superior al 75% con casos reales.
+1. Use of the Handler pattern (no logic directly in triggers).
+2. Use of Return Early to avoid unnecessary nesting.
+3. Avoid hardcoded values (use Custom Metadata or Labels).
+4. Avoid DML/SOQL inside loops.
+5. Proper bulkification of the code.
+6. Meaningful and explicit exception handling.
+7. Use of logs for traceability.
+8. Separation of declarative and programmatic logic.
+9. Test coverage over 75% with real cases.
 
-Si alguna de estas buenas prácticas no se cumple, debes mencionarlo al final del análisis como parte de un bloque:
+If any of these best practices are not met, you must mention it at the end of the analysis as part of a block:
 ```yaml
-### 🧠 Evaluación de Buenas Prácticas - Ejemplo:
+### 🧠 Best Practices Evaluation - Example:
 
-- [x] Usa Return Early correctamente
-- [ ] Tiene valores hardcoded (mejor usar Custom Metadata)
-- [ ] Maneja excepciones adecuadamente
-- [x] Código bulkificado
-- [ ] Registra errores o logs útiles
-- ...
+- [x] Uses Return Early correctly
+- [ ] Has hardcoded values (better to use Custom Metadata)
+- [ ] Handles exceptions adequately
+- [x] Code is bulkified
+- [ ] Logs errors or useful logs
+...
 ```
 
-🚫 Ejemplo de errores que debes evitar
-❌ Línea afectada incorrecta (usa conteo relativo al bloque Clase Apex: como se explicó).
-❌ Mutaciones sobre el bloque Clase Test: (prohibido).
-❌ Mutaciones que no cambian la lógica del negocio.
-❌ Cambiar solo el mensaje del assert (eso no rompe el test).
-❌ Mutaciones inválidas en Apex o que no compilan.
+🚫 Example of mistakes to avoid:
+❌ Incorrect affected line number (use line count relative to the Apex Class block as explained).  
+❌ Mutations on the Test Class block (forbidden).  
+❌ Mutations that do not change the business logic.  
+❌ Changing only the assert message (that does not break the test).  
+❌ Invalid mutations in Apex or ones that do not compile.
 
-¿Listo para procesar? Analiza el código y genera hasta 5 mutaciones destructivas válidas según este formato, y termina con la evaluación de buenas prácticas.
+Ready to process? Analyze the code and generate up to 5 valid destructive mutations according to this format, and end with the best practices evaluation.

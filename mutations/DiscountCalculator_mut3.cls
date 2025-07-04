@@ -4,6 +4,6 @@ public class DiscountCalculator {
         if (totalAmount >= 1000) {
             return totalAmount * 0.1;
         }
-        return -1; // 📝 Cambiar el valor de retorno por defecto de `0` a `-1` para verificar el manejo de retornos no esperados. - 💥 `testDiscountBelowThreshold`, `testDiscountNegativeAmount`, y `testDiscountZeroAmount` deberían fallar porque el retorno esperado es 0, no -1.
+        return -1; // 📝 📝 Description: Change the return value for amounts below the threshold from `0` to `-1` to test if the logic correctly handles non-zero returns for non-discounted amounts. - 💥 💥 Expected impact: testDiscountBelowThreshold, testDiscountNegativeAmount, testDiscountZeroAmount should fail because they expect a return value of 0.
     }
 }

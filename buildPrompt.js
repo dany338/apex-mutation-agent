@@ -27,9 +27,23 @@ function findTestClass(apexFileName) {
   return fs.existsSync(testPath) ? testPath : null;
 }
 
+function getTestClassPath(apexFilePath) {
+  const baseName = path.basename(apexFilePath).replace(/\.(cls|trigger)/, "");
+  const testClassName = `${baseName}Test.cls`;
+  // Obtener el path relativo del trigger y cambiarlo a 'classes'
+  const classDir = apexFilePath.includes("trigger")
+    ? path.join(apexFolderPath, "classes", testClassName)
+    : path.join(
+        apexFolderPath,
+        apexFilePath.replace(path.basename(apexFilePath), testClassName)
+      );
+
+  return fs.existsSync(classDir) ? classDir : null;
+}
+
 async function buildPromptFromApex(apexFileName) {
   const apexPath = path.join(apexFolderPath, apexFileName);
-  const testPath = findTestClass(apexFileName);
+  const testPath = getTestClassPath(apexFileName);
 
   if (!testPath) {
     throw new Error(`No se encontró el archivo test para: ${apexFileName}`);
@@ -40,6 +54,14 @@ async function buildPromptFromApex(apexFileName) {
     fs.readFile(apexPath, "utf8"),
     fs.readFile(testPath, "utf8"),
   ]);
+
+  // Verificar si el código Apex tiene líneas pero de acuerdo al tipo de Apex a analizar si es class standar normal o trigger:
+  if (!apexCode.trim()) {
+    throw new Error(`El archivo Apex está vacío: ${apexFileName}`);
+  }
+  if (!testCode.trim()) {
+    throw new Error(`El archivo de prueba está vacío: ${testPath}`);
+  }
 
   const finalPrompt = basePrompt
     .replace("===APEX_CLASS===", apexCode)

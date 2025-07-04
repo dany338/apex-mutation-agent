@@ -13,20 +13,26 @@ const {
   appendToMutationHistory,
   updateMutantMetrics,
 } = require("./metricsLogger");
+const {
+  apexFolderPath,
+  apexFolderProject,
+  apexFolderApex,
+} = require("./config");
 
-const APEX_CLASSES_DIR = path.resolve(
-  "../DiscountCalculatorApp/force-app/main/default/classes"
-);
-const apexFolderPath = path.resolve("./apex");
+// const apexFolderPath = path.resolve("./apex");
+
+function isTriggerFile(filePath) {
+  return filePath.endsWith(".trigger");
+}
 
 const copyApexFileToLocal = async (fileName) => {
-  const src = path.join(APEX_CLASSES_DIR, fileName);
-  const dest = path.join(apexFolderPath, fileName);
+  const src = path.join(apexFolderPath, fileName);
+  const dest = path.join(apexFolderApex, fileName);
   await fs.copy(src, dest);
 };
 
 async function getModifiedApexFiles(baseRef = "origin/main", headRef = "HEAD") {
-  const git = simpleGit(path.resolve("../DiscountCalculatorApp"));
+  const git = simpleGit(path.resolve(apexFolderProject));
   // Asegúrate de tener el último fetch del repo remoto
   await git.fetch();
   // const result = await git.diff(["--name-only", "HEAD"]);
@@ -35,13 +41,16 @@ async function getModifiedApexFiles(baseRef = "origin/main", headRef = "HEAD") {
   const result = await git.diff(["--name-only", "HEAD~1", "HEAD"]);
   return result
     .split("\n")
-    .filter((f) => f.includes("classes/") && f.endsWith(".cls")) // Aca no incluir los archivos terminados en Test.cls como seria esto:
+    .filter(
+      (f) =>
+        f.includes("triggers/") && f.includes("classes/") && f.endsWith(".cls")
+    ) // Aca no incluir los archivos terminados en Test.cls como seria esto:
     .filter((f) => !f.endsWith("Test.cls")) // Excluir archivos de test
     .map((f) => path.basename(f));
 }
 
 async function runProject() {
-  console.log(`🔍 Buscando clases modificadas en: ${APEX_CLASSES_DIR}\n`);
+  console.log(`🔍 Buscando clases modificadas en: ${apexFolderPath}\n`);
   const modifiedFiles = await getModifiedApexFiles();
 
   if (modifiedFiles.length === 0) {
@@ -50,8 +59,13 @@ async function runProject() {
   }
   const metrics = [];
   for (const file of modifiedFiles) {
+    const baseName = file.replace(/\.(cls|trigger)/, "");
     const testFile = file.replace(".cls", "Test.cls");
-    const exists = await fs.pathExists(path.join(APEX_CLASSES_DIR, testFile));
+    const isTrigger = isTriggerFile(file);
+    const apexFolder = isTrigger ? "triggers" : "classes";
+    const exists = await fs.pathExists(
+      path.join(`${apexFolderPath}/${apexFolder}`, testFile)
+    );
 
     if (!exists) {
       console.warn(`⚠️ No se encontró clase de test para ${file}, se omite.\n`);
@@ -80,8 +94,8 @@ async function runProject() {
       const testResults = [];
       for (const m of mutationFiles) {
         const result = await runTestAgainstMutation(
-          file.replace(".cls", ""),
-          testFile.replace(".cls", ""),
+          baseName,
+          baseName + "Test",
           m.file
         );
         testResults.push({ ...m, passed: result.passed });

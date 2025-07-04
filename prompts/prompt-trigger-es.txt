@@ -1,0 +1,98 @@
+
+📌 Eres un experto desarrollador Salesforce y especialista en pruebas de mutaciones sobre Apex. Se te dará un trigger tipo Apex y su clase de prueba correspondiente.
+
+📌 Tu objetivo es analizar el código, identificar puntos sensibles a errores, y generar **mutaciones destructivas** (cambios intencionales que deberían hacer fallar la prueba si ésta es efectiva).
+
+📌 Aquí está el trigger a mutar: 👇
+
+🔷 Apex Trigger o Clase:
+```apex
+===APEX_CLASS===
+```
+Fin Apex
+
+🔷 Clase de Prueba:
+```apex
+===TEST_CLASS===
+```
+Fin Test
+
+---
+
+🎯 Objetivo:
+
+Tu misión es generar hasta **5 mutaciones destructivas** que modifiquen únicamente la sección del trigger o clase Apex. Estas mutaciones deben:
+
+- Ser válidas sintácticamente en Apex.
+- Reflejar errores comunes o relevantes para la lógica de negocio.
+- Causar la falla de al menos un método de prueba definido en la clase de prueba.
+- Ser útiles para evaluar la solidez de las pruebas.
+
+---
+
+✅ Reglas y consideraciones:
+
+1. **No alteres la clase de prueba. Solo analiza la sección `Apex Class`.**
+2. Si no puedes generar 5 mutaciones válidas, genera solo las necesarias (mínimo 1).
+3. Las mutaciones deben ser variadas: operadores, valores, condiciones, retorno, etc.
+4. No repitas mutaciones ni sugieras cambios ya presentes en el código.
+5. **Comienza la numeración de líneas desde la palabra clave `trigger` o `public class`, que cuenta como línea 1**. El total de líneas será indicado por `===TOTAL_LINES===`.
+6. Se permite mutar cualquier parte del código, incluyendo condiciones internas, bucles, estructuras `if`, etc.
+7. Las mutaciones deben ajustarse al tipo de dato, sintaxis y estructuras de Apex.
+8. El formato debe ser estrictamente estructurado como se muestra a continuación.
+
+---
+
+📦 Formato ESTRICTO por cada mutación:
+
+```yaml
+### 💥 Mutación [número]:
+
+📝 Descripción: [verbo + qué se cambia + por qué afecta la lógica]
+
+📍 Línea afectada: [número relativo al bloque Apex. Total de líneas: ===TOTAL_LINES===]
+
+🧠 Tipo de mutación: [cambio de operador, cambio de valor, cambio de condición, cambio de retorno, etc.]
+
+💥 Impacto esperado: [nombres de los métodos de prueba que deberían fallar con una breve explicación]
+
+🔁 Línea mutada:
+[la línea nueva con la mutación aplicada]
+
+🔁 Línea original:
+[la línea original que fue reemplazada]
+```
+
+---
+
+🛡️ Evaluación de buenas prácticas Apex
+
+Al final del análisis, evalúa si la sección de código Apex cumple con las siguientes buenas prácticas recomendadas por Salesforce:
+
+```yaml
+### 🧠 Evaluación de Buenas Prácticas:
+
+- [ ] Usa patrón Handler (sin lógica en el trigger directamente)
+- [ ] Usa Return Early (evita anidación innecesaria)
+- [ ] Evita valores hardcoded (usar Metadata o Custom Labels)
+- [ ] Evita DML o SOQL dentro de bucles
+- [ ] Código correctamente bulkificado
+- [ ] Manejo de excepciones explícito y claro
+- [ ] Uso de logs para trazabilidad
+- [ ] Separación entre lógica declarativa y programática
+- [ ] Cobertura de pruebas mayor al 75%
+```
+
+---
+
+🚫 Errores comunes a evitar:
+
+- ❌ Línea afectada mal numerada (debe comenzar desde `trigger` o `public class` como línea 1).
+- ❌ Mutar la clase de prueba.
+- ❌ Mutaciones triviales que no alteran lógica.
+- ❌ Cambios sintácticos inválidos.
+- ❌ Mutaciones redundantes o ya aplicadas.
+
+---
+
+📎 ¿Listo? Analiza el código proporcionado y devuelve de 1 a 5 mutaciones destructivas válidas, seguidas de la evaluación de buenas prácticas.

@@ -10,7 +10,7 @@ const { runTestAgainstMutation } = require("./testRunner");
 const { generateMutationReport } = require("./reportGenerator");
 
 async function testMutations(baseClass, testClass, generatedFiles) {
-  console.log("\n🧪 Ejecutando tests para cada mutación...\n");
+  console.log("\n🧪 Running tests for each mutation...\n"); // toInglesh: "🧪 Running tests for each mutation...\n"
   const results = [];
 
   for (const file of generatedFiles) {
@@ -85,7 +85,7 @@ async function main() {
     mutations
   );
 
-  console.log("\n✅ Archivos mutados generados:");
+  console.log("\n✅ Generated mutated files:"); // Archivos mutados generados:
   for (const file of generatedFiles) {
     console.log(`- ${file.file}: ${file.description}`);
   }
