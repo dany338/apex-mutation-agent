@@ -1,11 +1,11 @@
 # 🧬 Reporte de Mutaciones - AccountPhoneChangeTrigger.trigger
 
-Fecha: 7/4/2025, 1:17:12 AM
+Fecha: 7/4/2025, 4:15:37 PM
 
 | # | Archivo Mutado | Descripción | Resultado del Test | Recomendación |
 |---|----------------|-------------|---------------------|---------------|
-| 1 | AccountPhoneChangeTrigger.trigger_mut1.cls | Cambiar el operador de desigualdad `!=` a igualdad `==` en la condición de comparación de números de teléfono, lo que hará que el trigger no registre cambios cuando los números de teléfono sean diferentes. | ❌ Falló | 🟢 Test válido |
-| 2 | AccountPhoneChangeTrigger.trigger_mut2.cls | Cambiar el campo `NewPhone__c` para que almacene el valor del campo `OldPhone__c` en lugar de `acc.Phone`, lo que hará que el registro de cambio de teléfono sea incorrecto. | ❌ Falló | 🟢 Test válido |
-| 3 | AccountPhoneChangeTrigger.trigger_mut3.cls | Eliminar la línea de inserción del registro `PhoneChange__c`, lo que hará que no se registre ningún cambio de teléfono. | ❌ Falló | 🟢 Test válido |
-| 4 | AccountPhoneChangeTrigger.trigger_mut4.cls | Cambiar el acceso al mapa `Trigger.oldMap` para usar `Trigger.newMap`, lo que hará que el trigger compare el nuevo valor con el nuevo valor, siempre resultando en falso. | ❌ Falló | 🟢 Test válido |
-| 5 | AccountPhoneChangeTrigger.trigger_mut5.cls | Cambiar la asignación del campo `OldPhone__c` para que almacene el valor del campo `acc.Phone` en lugar de `oldAcc.Phone`, lo que hará que el registro de cambio de teléfono sea incorrecto. | ❌ Falló | 🟢 Test válido |
+| 1 | AccountPhoneChangeTrigger.trigger_mut1.cls | 📝 Description: Change the condition to always evaluate to false, preventing any phone change from being logged. | ❌ Falló | 🟢 Test válido |
+| 2 | AccountPhoneChangeTrigger.trigger_mut2.cls | 📝 Description: Remove the insertion of the `PhoneChange__c` record, which will prevent logging of phone changes. | ❌ Falló | 🟢 Test válido |
+| 3 | AccountPhoneChangeTrigger.trigger_mut3.cls | 📝 Description: Change the assignment of `NewPhone__c` to use `OldPhone__c`, causing incorrect logging of the new phone number. | ❌ Falló | 🟢 Test válido |
+| 4 | AccountPhoneChangeTrigger.trigger_mut4.cls | 📝 Description: Change the loop to iterate over `Trigger.old` instead of `Trigger.new`, which will prevent the detection of changes. | ❌ Falló | 🟢 Test válido |
+| 5 | AccountPhoneChangeTrigger.trigger_mut5.cls | 📝 Description: Change the assignment of `OldPhone__c` to use `NewPhone__c`, causing incorrect logging of the old phone number. | ❌ Falló | 🟢 Test válido |

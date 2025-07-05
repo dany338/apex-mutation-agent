@@ -6,7 +6,7 @@ const openai = new OpenAI({
 
 async function callOpenAI(prompt) {
   const completion = await openai.chat.completions.create({
-    model: "gpt-4",
+    model: "gpt-4o",
     temperature: 0.2,
     messages: [{ role: "user", content: prompt }],
   });

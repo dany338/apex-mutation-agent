@@ -11,6 +11,7 @@ const { runTestAgainstMutation } = require("./testRunner");
 const { generateMutationReport } = require("./reportGenerator");
 const { exportMetrics } = require("./exportMetrics");
 const { generateIndexPage } = require("./generateIndexPage");
+const { convertLatestMarkdownToPDF } = require("./convertToPdf");
 const {
   appendToMutationHistory,
   updateMutantMetrics,
@@ -177,6 +178,8 @@ async function runProject() {
   await exportMetrics();
   console.log("📊 Gráficas generadas en index.html");
   await generateIndexPage();
+  console.log("📄 Reportes PDF generados.");
+  await convertLatestMarkdownToPDF();
   console.log("✅ Proceso completado.");
 }
 

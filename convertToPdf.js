@@ -29,4 +29,8 @@ async function convertLatestMarkdownToPDF() {
     });
 }
 
-convertLatestMarkdownToPDF();
+// convertLatestMarkdownToPDF();
+
+module.exports = {
+  convertLatestMarkdownToPDF,
+};

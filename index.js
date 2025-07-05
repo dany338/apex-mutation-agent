@@ -99,7 +99,7 @@ async function main() {
 
   await testMutations(
     apexFileName,
-    "DiscountCalculatorTest.cls",
+    "AccountPhoneChangeTriggerTest.cls",
     generatedFiles
   );
 }

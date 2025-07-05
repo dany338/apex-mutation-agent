@@ -37,12 +37,12 @@ function parseMutationsFromText(text) {
       current.explanation = line.replace("💥 Impacto esperado:", "").trim();
     } else if (
       line.startsWith("🔁 Línea de código mutada:") ||
-      line.startsWith("🔁 Mutated code line:")
+      line.startsWith("🔁 Mutated line:")
     ) {
       captureMutation = true;
     } else if (
       line.startsWith("🔁 Línea de código original:") ||
-      line.startsWith("🔁 Original code line:")
+      line.startsWith("🔁 Original line:")
     ) {
       captureOriginal = true;
     } else if (
