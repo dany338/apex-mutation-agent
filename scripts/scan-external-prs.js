@@ -38,6 +38,11 @@ async function scanRepositoryPRs(repo) {
   const prs = await getOpenPRs(repo);
   const results = [];
 
+  if (prs.length === 0) {
+    console.log(`🔍 No se encontraron PRs abiertos en ${repo}.`);
+    return;
+  }
+
   for (const pr of prs) {
     const prNumber = pr.number;
     const branch = pr.head.ref;
