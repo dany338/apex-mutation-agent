@@ -7,7 +7,7 @@ const { generatePrompt } = require("../utils/prompt-builder");
 const { detectApexClassType } = require("../utils/detect-type");
 const { callOpenAI } = require("../utils/openai");
 const { generatePDFReport } = require("../utils/pdfGenerator");
-const { generatePDF } = require("../utils/export-pdf");
+const { exportReviewToPdf } = require("../utils/export-pdf");
 
 const owner = process.env.OWNER;
 console.log("🚀 ~ owner:", owner);
@@ -119,7 +119,8 @@ async function scanRepositoryPRs(repo) {
           fileName: `${repo}#${file}`,
           reviewText: review,
         });
-        generatePDF({
+        // Alternativamente, si quieres usar la función exportReviewToPdf
+        exportReviewToPdf({
           repo,
           prNumber,
           fileName: `${repo}#${file}`,
