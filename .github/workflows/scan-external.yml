@@ -29,6 +29,9 @@ jobs:
       - name: 📦 Instalar dependencias
         run: npm ci
 
+      - name: 🧪 Verificar variables de entorno
+        run: node scripts/check-env.js
+
       - name: 🔍 Verificar compatibilidad de entorno
         run: node scripts/check-compatibility.js
 
