@@ -18,29 +18,32 @@ const git = simpleGit(path.resolve(apexFolderProject));
 
 async function run() {
   const token = process.env.GITHUB_TOKEN;
-  const repository = process.env.GITHUB_REPOSITORY; // owner/repo
-  const prNumber = process.env.GITHUB_PR_NUMBER; // número de PR
-  const octokit = github.getOctokit(token);
+  // const repository = process.env.GITHUB_REPOSITORY; // owner/repo
+  // const prNumber = process.env.GITHUB_PR_NUMBER; // número de PR
+
   const context = github.context;
+  const pr = context.payload.pull_request;
+  const owner =
+    process.env.GITHUB_REPOSITORY?.split("/")[0] || context.repo.owner;
+  const repo =
+    process.env.GITHUB_REPOSITORY?.split("/")[1] || context.repo.repo;
 
-  // const pr = context.payload.pull_request;
-  // const owner = context.repo.owner;
-  // const repo = context.repo.repo;
+  // if (!token || !repository || !prNumber) {
+  //   throw new Error(
+  //     "❗ GITHUB_TOKEN, GITHUB_REPOSITORY y GITHUB_PR_NUMBER deben estar definidos en el archivo .env"
+  //   );
+  // }
 
-  if (!token || !repository || !prNumber) {
-    throw new Error(
-      "❗ GITHUB_TOKEN, GITHUB_REPOSITORY y GITHUB_PR_NUMBER deben estar definidos en el archivo .env"
-    );
-  }
+  // let owner, repo;
+  // if (process.env.GITHUB_REPOSITORY) {
+  //   [owner, repo] = process.env.GITHUB_REPOSITORY.split("/");
+  // } else {
+  //   throw new Error(
+  //     "Falta definir GITHUB_REPOSITORY en el archivo .env (owner/repo)"
+  //   );
+  // }
 
-  let owner, repo;
-  if (process.env.GITHUB_REPOSITORY) {
-    [owner, repo] = process.env.GITHUB_REPOSITORY.split("/");
-  } else {
-    throw new Error(
-      "Falta definir GITHUB_REPOSITORY en el archivo .env (owner/repo)"
-    );
-  }
+  const octokit = github.getOctokit(token);
 
   const changedFiles = await git.diff(["--name-only", "origin/main"]);
   const apexFiles = changedFiles
@@ -65,7 +68,7 @@ async function run() {
     await octokit.rest.issues.createComment({
       owner,
       repo,
-      issue_number: pr.number,
+      issue_number: parseInt(pr.number),
       body: `💡 **Revisión IA para \`${file}\`**\n\n${review}`,
     });
 

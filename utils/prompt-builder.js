@@ -1,5 +1,5 @@
 function generatePrompt(diff, classType) {
-  return `Eres un revisor experto de código en Salesforce (Apex, Flows, LWC, APIs)...\n\n[Tu objetivo es analizar código recientemente modificado por un desarrollador y emitir sugerencias automatizadas, concisas y útiles para revisión de Pull Requests.
+  return `Eres un revisor experto de código en Salesforce (Apex, Flows, LWC, APIs, Tiggers, etc)...\n\n[Tu objetivo es analizar código recientemente modificado por un desarrollador y emitir sugerencias automatizadas, concisas y útiles para revisión de Pull Requests.
 
 Evalúa el siguiente fragmento de código Apex y responde:
 

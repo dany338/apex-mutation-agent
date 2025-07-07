@@ -12,7 +12,8 @@
     "export:metrics": "node exportMetrics.js",
     "generate:index": "node generateIndexPage.js",
     "review-pr": "node scripts/review-pr.js",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "review-local": "node scripts/review-local.js"
   },
   "keywords": [],
   "author": "",
@@ -26,6 +27,7 @@
     "dotenv": "^16.5.0",
     "fs-extra": "^11.3.0",
     "openai": "^5.7.0",
+    "pdfkit": "^0.17.1",
     "readline-sync": "^1.4.10",
     "simple-git": "^3.28.0"
   },

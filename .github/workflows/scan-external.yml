@@ -1,0 +1,33 @@
+name: 🔍 Escaneo externo de PRs
+
+on:
+  schedule:
+    - cron: "*/5 * * * *" # ⏱️ Ejecuta cada 30 minutos si quiero q sea cada 5 minutos, cambiar a "*/5 * * * *"
+  workflow_dispatch: # ▶️ Permite ejecución manual desde Actions tab
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      TOKEN_GITHUB: ${{ secrets.TOKEN_GITHUB }}
+      TARGET_REPOS: dany338/apex-mutation-test # Puedes agregar más repos separados por comas
+
+    steps:
+      - name: 📥 Checkout del agente
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: 📦 Instalar dependencias
+        run: npm install
+
+      - name: 🔎 Ejecutar análisis de PRs externos
+        run: node scripts/scan-external-prs.js
+
+      - name: 📤 Subir PDFs como artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pdf-reports
+          path: mutations/**
