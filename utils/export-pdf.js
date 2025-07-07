@@ -4,11 +4,11 @@ const path = require("path");
 
 function exportReviewToPdf({ repo, prNumber, fileName, reviewText }) {
   const doc = new PDFDocument();
-  const outputDir = path.join("mutations", repo, `${prNumber}`);
-  const outputPath = path.join(outputDir, `${fileName}.pdf`);
-  console.log("🚀 ~ exportReviewToPdf ~ outputDir:", outputDir);
-
-  if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
+  const outputPath = path.join("mutations", `${fileName}.pdf`);
+  const outputDir = path.dirname(outputPath);
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true });
+  }
 
   const writeStream = fs.createWriteStream(outputPath);
   doc.pipe(writeStream);

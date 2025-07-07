@@ -91,14 +91,17 @@ async function scanRepositoryPRs(repo) {
         console.log(`🔍 Revisando archivo: ${file}`);
         const filePath = path.join(tempDir, file);
         if (!fs.existsSync(filePath)) {
+          console.log(`⚠️ Archivo eliminado o no encontrado: ${filePath}`);
           console.warn(`⚠️ Archivo eliminado o no encontrado: ${filePath}`);
           continue; // Saltar este archivo
         }
         const content = await fs.readFile(filePath, "utf8");
         const classType = detectApexClassType(content);
+        console.log(`🔍 Tipo de clase detectado: ${classType}`);
         const diff = await git.diff(["origin/main", "--", file]);
 
         const prompt = generatePrompt(diff, classType);
+        console.log("🚀 ~ scanRepositoryPRs ~ prompt:", prompt);
         const review = await callOpenAI(prompt);
 
         // Publicar comentario en el PR
@@ -123,12 +126,16 @@ async function scanRepositoryPRs(repo) {
         //   reviewText: review,
         // });
         // Alternativamente, si quieres usar la función exportReviewToPdf
+        const sanitizedFileName = `${repo}#${file.replace(/\//g, "_")}`;
+        console.log(`📄 Generando PDF con nombre limpio: ${sanitizedFileName}`);
+
         await exportReviewToPdf({
           repo,
           prNumber,
-          fileName: `${repo}#${file}`,
+          fileName: sanitizedFileName,
           reviewText: review,
         });
+        console.log(`📄 PDF guardado como mutations/${sanitizedFileName}.pdf`);
       }
     } catch (err) {
       console.error(`❌ Error procesando PRs de ${repo}:`, err.message);
