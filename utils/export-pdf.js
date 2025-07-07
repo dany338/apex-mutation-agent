@@ -6,6 +6,7 @@ function exportReviewToPdf({ repo, prNumber, fileName, reviewText }) {
   const doc = new PDFDocument();
   const outputDir = path.join("mutations", repo, `${prNumber}`);
   const outputPath = path.join(outputDir, `${fileName}.pdf`);
+  console.log("🚀 ~ exportReviewToPdf ~ outputDir:", outputDir);
 
   if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
 

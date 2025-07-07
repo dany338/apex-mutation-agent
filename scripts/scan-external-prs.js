@@ -132,7 +132,6 @@ async function scanRepositoryPRs(repo) {
           fileName: `${repo}#${file}`,
           reviewText: review,
         });
-        console.log(`📄 PDF guardado en ${pdfPath}`);
       }
     } catch (err) {
       console.error(`❌ Error procesando PRs de ${repo}:`, err.message);
