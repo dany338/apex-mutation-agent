@@ -119,14 +119,14 @@ async function scanRepositoryPRs(repo) {
           "mutations",
           `${repo}#${file.replace(/\//g, "_")}.pdf`
         );
-        generatePDFReport({
-          repo,
-          prNumber,
-          fileName: `${repo}#${file}`,
-          reviewText: review,
-        });
+        // await generatePDFReport({
+        //   repo,
+        //   prNumber,
+        //   fileName: `${repo}#${file}`,
+        //   reviewText: review,
+        // });
         // Alternativamente, si quieres usar la función exportReviewToPdf
-        exportReviewToPdf({
+        await exportReviewToPdf({
           repo,
           prNumber,
           fileName: `${repo}#${file}`,

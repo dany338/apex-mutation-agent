@@ -24,7 +24,7 @@ function exportReviewToPdf({ repo, prNumber, fileName, reviewText }) {
   });
 
   doc.end();
-  console.log(`📄 PDF generado: ${outputPath}`);
+  console.log(`📄 PDF generado con exportReviewToPdf: ${outputPath}`);
 }
 
 module.exports = { exportReviewToPdf };

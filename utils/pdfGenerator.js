@@ -20,7 +20,7 @@ function generatePDFReport({ repo, prNumber, fileName, reviewText }) {
   doc.moveDown().fontSize(12).text(reviewText);
   doc.end();
 
-  console.log(`📄 PDF generado: ${outputPath}`);
+  console.log(`📄 PDF generado con generatePDFReport: ${outputPath}`);
 }
 
 module.exports = { generatePDFReport };
