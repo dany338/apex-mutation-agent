@@ -65,6 +65,12 @@ async function scanRepositoryPRs(repo) {
         `origin/main`,
         branch,
       ]);
+      console.log(
+        `🔍 Archivos diffOutput en PR #${diffOutput
+          .split("\n")
+          .map((line) => line.trim().split(/\s+/))}:`
+      );
+
       console.log(`🔍 Archivos modificados en PR #${prNumber}:`);
       // const changedFiles = diffOutput
       //   .split("\n")
