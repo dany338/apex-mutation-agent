@@ -21,9 +21,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: ✅ Verificar compatibilidad de Node y npm
-        run: node scripts/check-compatibility.js
-
       - name: 🟢 Instalar Node.js
         uses: actions/setup-node@v3
         with:
@@ -31,6 +28,9 @@ jobs:
 
       - name: 📦 Instalar dependencias
         run: npm ci
+
+      - name: 🔍 Verificar compatibilidad de entorno
+        run: node scripts/check-compatibility.js
 
       - name: 🔎 Ejecutar análisis de PRs externos
         run: node scripts/scan-external-prs.js
