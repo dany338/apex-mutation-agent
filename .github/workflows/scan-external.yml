@@ -39,7 +39,7 @@ jobs:
         run: node scripts/scan-external-prs.js
 
       - name: 📤 Subir PDFs como artifact
-        if: always() # Asegurarse de que se suban incluso si falla el paso anterior
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: pdf-reports
