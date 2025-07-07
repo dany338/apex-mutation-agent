@@ -5,9 +5,9 @@ const PDFDocument = require("pdfkit");
 /**
  * Genera un PDF con la revisión IA
  * @param {string} fileName - Nombre del archivo Apex
- * @param {string} content - Comentario generado por IA
+ * @param {string} reviewText - Comentario generado por IA
  */
-function generatePDFReport(fileName, content) {
+function generatePDFReport({ repo, prNumber, fileName, reviewText }) {
   const doc = new PDFDocument();
   const date = new Date().toISOString().replace(/[:.]/g, "-");
   const baseName = fileName.replace(/\.(cls|trigger)/, "");
@@ -17,7 +17,7 @@ function generatePDFReport(fileName, content) {
 
   doc.pipe(stream);
   doc.fontSize(16).text(`AI Review for ${fileName}`, { underline: true });
-  doc.moveDown().fontSize(12).text(content);
+  doc.moveDown().fontSize(12).text(reviewText);
   doc.end();
 
   console.log(`📄 PDF generado: ${outputPath}`);

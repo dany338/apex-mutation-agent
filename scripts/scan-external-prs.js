@@ -7,6 +7,7 @@ const { generatePrompt } = require("../utils/prompt-builder");
 const { detectApexClassType } = require("../utils/detect-type");
 const { callOpenAI } = require("../utils/openai");
 const { generatePDFReport } = require("../utils/pdfGenerator");
+const { generatePDF } = require("../utils/export-pdf");
 
 const owner = process.env.OWNER;
 console.log("🚀 ~ owner:", owner);
@@ -57,10 +58,26 @@ async function scanRepositoryPRs(repo) {
       await git.checkout(branch);
 
       // Obtener archivos modificados en el PR
-      const diffOutput = await git.diff(["--name-only", `origin/main`, branch]);
+      // const diffOutput = await git.diff(["--name-only", `origin/main`, branch]);
+      const diffOutput = await git.diff([
+        "--diff-filter=ACMRT", // A: Added, C: Copied, M: Modified, R: Renamed, T: Type changed
+        "--name-status",
+        `origin/main`,
+        branch,
+      ]);
+      console.log(`🔍 Archivos modificados en PR #${prNumber}:`);
+      // const changedFiles = diffOutput
+      //   .split("\n")
+      //   .filter((f) => f.endsWith(".cls") || f.endsWith(".trigger"));
       const changedFiles = diffOutput
         .split("\n")
-        .filter((f) => f.endsWith(".cls") || f.endsWith(".trigger"));
+        .map((line) => line.trim().split(/\s+/)) // Ej: ["M", "force-app/main/default/classes/..."]
+        .filter(
+          ([status, file]) =>
+            (status === "A" || status === "M") &&
+            (file.endsWith(".cls") || file.endsWith(".trigger"))
+        )
+        .map(([_, file]) => file); // Solo necesitas el nombre del archivo
 
       if (changedFiles.length === 0) {
         console.log(`✅ PR #${prNumber} no modifica archivos Apex.`);
@@ -70,6 +87,10 @@ async function scanRepositoryPRs(repo) {
       for (const file of changedFiles) {
         console.log(`🔍 Revisando archivo: ${file}`);
         const filePath = path.join(tempDir, file);
+        if (!fs.existsSync(filePath)) {
+          console.warn(`⚠️ Archivo eliminado o no encontrado: ${filePath}`);
+          continue; // Saltar este archivo
+        }
         const content = await fs.readFile(filePath, "utf8");
         const classType = detectApexClassType(content);
         const diff = await git.diff(["origin/main", "--", file]);
@@ -87,12 +108,23 @@ async function scanRepositoryPRs(repo) {
 
         // Generar PDF
         await fs.ensureDir("mutations"); // Asegurarse de que la carpeta exista
+        console.log(`📄 Generando PDF para ${file}...`);
         const pdfPath = path.join(
           "mutations",
           `${repo}#${file.replace(/\//g, "_")}.pdf`
         );
-        generatePDFReport(file, review);
-        // await generatePDF(file, diff, review, pdfPath);
+        generatePDFReport({
+          repo,
+          prNumber,
+          fileName: `${repo}#${file}`,
+          reviewText: review,
+        });
+        generatePDF({
+          repo,
+          prNumber,
+          fileName: `${repo}#${file}`,
+          reviewText: review,
+        });
         console.log(`📄 PDF guardado en ${pdfPath}`);
       }
     } catch (err) {
