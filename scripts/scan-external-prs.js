@@ -68,6 +68,7 @@ async function scanRepositoryPRs(repo) {
       }
 
       for (const file of changedFiles) {
+        console.log(`🔍 Revisando archivo: ${file}`);
         const filePath = path.join(tempDir, file);
         const content = await fs.readFile(filePath, "utf8");
         const classType = detectApexClassType(content);
