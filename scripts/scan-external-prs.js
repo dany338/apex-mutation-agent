@@ -9,8 +9,11 @@ const { callOpenAI } = require("../utils/openai");
 const { generatePDFReport } = require("../utils/pdfGenerator");
 
 const owner = process.env.OWNER;
+console.log("🚀 ~ owner:", owner);
 const TOKEN_GITHUB = process.env.TOKEN_GITHUB;
+console.log("🚀 ~ TOKEN_GITHUB:", TOKEN_GITHUB);
 const TARGET_REPOS = process.env.TARGET_REPOS?.split(",") || [];
+console.log("🚀 ~ TARGET_REPOS:", TARGET_REPOS);
 
 if (!TOKEN_GITHUB || !owner || TARGET_REPOS.length === 0) {
   throw new Error(
