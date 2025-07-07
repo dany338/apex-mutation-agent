@@ -65,11 +65,6 @@ async function scanRepositoryPRs(repo) {
         `origin/main`,
         branch,
       ]);
-      console.log(
-        `🔍 Archivos diffOutput en PR #${diffOutput
-          .split("\n")
-          .map((line) => line.trim().split(/\s+/))}:`
-      );
 
       console.log(`🔍 Archivos modificados en PR #${prNumber}:`);
       // const changedFiles = diffOutput
@@ -89,6 +84,8 @@ async function scanRepositoryPRs(repo) {
         console.log(`✅ PR #${prNumber} no modifica archivos Apex.`);
         continue;
       }
+
+      console.log(`🔍 Archivos changedFiles en PR #${changedFiles}:`);
 
       for (const file of changedFiles) {
         console.log(`🔍 Revisando archivo: ${file}`);
