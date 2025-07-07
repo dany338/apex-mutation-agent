@@ -30,7 +30,8 @@
     "pdfkit": "^0.17.1",
     "readline-sync": "^1.4.10",
     "simple-git": "^3.28.0",
-    "@octokit/rest": "^20.0.1"
+    "@octokit/rest": "^20.0.1",
+    "semver": "^7.6.0"
   },
   "devDependencies": {
     "husky": "^9.1.7",

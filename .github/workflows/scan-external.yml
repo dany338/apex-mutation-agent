@@ -21,6 +21,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: ✅ Verificar compatibilidad de Node y npm
+        run: node scripts/check-compatibility.js
+
       - name: 🟢 Instalar Node.js
         uses: actions/setup-node@v3
         with:

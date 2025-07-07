@@ -6,7 +6,7 @@ const path = require("path");
 const { generatePrompt } = require("../utils/prompt-builder");
 const { detectApexClassType } = require("../utils/detect-type");
 const { callOpenAI } = require("../utils/openai");
-const { generatePDF } = require("../utils/pdf-generator");
+const { generatePDFReport } = require("../utils/pdfGenerator");
 
 const owner = process.env.OWNER;
 const TOKEN_GITHUB = process.env.TOKEN_GITHUB;
@@ -82,7 +82,8 @@ async function scanRepositoryPRs(repo) {
           "mutations",
           `${repo}#${file.replace(/\//g, "_")}.pdf`
         );
-        await generatePDF(file, diff, review, pdfPath);
+        generatePDFReport(file, review);
+        // await generatePDF(file, diff, review, pdfPath);
         console.log(`📄 PDF guardado en ${pdfPath}`);
       }
     } catch (err) {
