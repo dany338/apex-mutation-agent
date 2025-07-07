@@ -77,6 +77,7 @@ async function scanRepositoryPRs(repo) {
         });
 
         // Generar PDF
+        await fs.ensureDir("mutations"); // Asegurarse de que la carpeta exista
         const pdfPath = path.join(
           "mutations",
           `${repo}#${file.replace(/\//g, "_")}.pdf`

@@ -12,7 +12,8 @@ jobs:
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       TOKEN_GITHUB: ${{ secrets.TOKEN_GITHUB }}
-      TARGET_REPOS: dany338/apex-mutation-test # Puedes agregar más repos separados por comas
+      OWNER: ${{ secrets.OWNER }}
+      TARGET_REPOS: ${{ secrets.TARGET_REPOS }} # Puedes agregar más repos separados por comas
 
     steps:
       - name: 📥 Checkout del agente
@@ -20,13 +21,19 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: 🟢 Instalar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20.x"
+
       - name: 📦 Instalar dependencias
-        run: npm install
+        run: npm ci
 
       - name: 🔎 Ejecutar análisis de PRs externos
         run: node scripts/scan-external-prs.js
 
       - name: 📤 Subir PDFs como artifact
+        if: always() # Asegurarse de que se suban incluso si falla el paso anterior
         uses: actions/upload-artifact@v4
         with:
           name: pdf-reports
