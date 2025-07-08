@@ -1,4 +1,4 @@
-function generatePrompt(diff, classType) {
+function generatePromptEn(diff, classType) {
   return `You are an expert code reviewer in Salesforce (Apex, Flows, LWC, APIs, Triggers, etc)...
 
 [Your objective is to analyze recently modified code by a developer and provide automated, concise, and useful suggestions for Pull Request reviews.
