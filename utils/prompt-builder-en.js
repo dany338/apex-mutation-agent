@@ -40,4 +40,4 @@ Evaluate the following Apex code snippet and respond:
 7. If the code is correct and follows best practices, acknowledge its quality and maintainability. ${classType}]\n\nModified code:\n===DIFF===\n${diff}`;
 }
 
-module.exports = { generatePrompt };
+module.exports = { generatePromptEn };

@@ -7,7 +7,7 @@ trigger AccountPhoneChangeTrigger on Account (before update) {
             change.OldPhone__c = oldAcc.Phone;
             change.NewPhone__c = acc.Phone;
             acc.Description = '📞 Phone was changed!';
-            insert change; // Move this line outside the loop // 📝 📝 Description: Move the insertion of the `PhoneChange__c` record outside the loop, which will cause only the last change to be logged if multiple accounts are updated. - 💥 💥 Expected impact: `testPhoneChangeInsert` should fail if multiple accounts are updated in a single transaction, as only the last change will be recorded.
+            } // 📝 📝 Description: Move the `insert change;` statement outside the loop to prevent logging multiple phone changes in a bulk update scenario. - 💥 💥 Expected impact: `testPhoneChangeInsert` should fail because the test expects a `PhoneChange__c` record for each phone change, but only one record will be inserted for multiple changes.
         }
     }
 }
