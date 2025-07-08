@@ -19,5 +19,8 @@ private class AccountPhoneChangeTriggerTest {
         System.assertEquals(1, changes.size(), 'Debe haberse creado un registro');
         System.assertEquals('123456', changes[0].OldPhone__c);
         System.assertEquals('7891011', changes[0].NewPhone__c);
+
+        Account updated = [SELECT Description FROM Account WHERE Id = :acc.Id];
+        System.assertEquals('📞 Phone was changed!', updated.Description);
     }
 }

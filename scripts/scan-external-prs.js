@@ -4,6 +4,7 @@ const simpleGit = require("simple-git");
 const fs = require("fs-extra");
 const path = require("path");
 const { generatePrompt } = require("../utils/prompt-builder");
+const { generatePromptEn } = require("../utils/prompt-builder-en");
 const { detectApexClassType } = require("../utils/detect-type");
 const { callOpenAI } = require("../utils/openai");
 const { generatePDFReport } = require("../utils/pdfGenerator");
@@ -100,7 +101,7 @@ async function scanRepositoryPRs(repo) {
         console.log(`🔍 Tipo de clase detectado: ${classType}`);
         const diff = await git.diff(["origin/main", "--", file]);
 
-        const prompt = generatePrompt(diff, classType);
+        const prompt = generatePromptEn(diff, classType);
         console.log("🚀 ~ scanRepositoryPRs ~ prompt:", prompt);
         const review = await callOpenAI(prompt);
 
