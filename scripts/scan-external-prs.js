@@ -101,7 +101,7 @@ async function scanRepositoryPRs(repo) {
         console.log(`🔍 Tipo de clase detectado: ${classType}`);
         const diff = await git.diff(["origin/main", "--", file]);
 
-        const prompt = generatePrompt(diff, classType);
+        const prompt = generatePromptEn(diff, classType);
         console.log("🚀 ~ scanRepositoryPRs ~ prompt:", prompt);
         const review = await callOpenAI(prompt);
 
