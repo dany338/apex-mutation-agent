@@ -2,7 +2,7 @@ name: 🔍 Escaneo externo de PRs
 
 on:
   schedule:
-    - cron: "*/5 * * * *" # ⏱️ Ejecuta cada 30 minutos si quiero q sea cada 5 minutos, cambiar a "*/5 * * * *"
+    - cron: "*/2 * * * *" # ⏱️ Ejecuta cada 30 minutos si quiero q sea cada 5 minutos, cambiar a "*/5 * * * *"
   workflow_dispatch: # ▶️ Permite ejecución manual desde Actions tab
 
 jobs:
@@ -16,29 +16,29 @@ jobs:
       TARGET_REPOS: ${{ secrets.TARGET_REPOS }} # Puedes agregar más repos separados por comas
 
     steps:
-      - name: 📥 Checkout del agente
+      - name: 📥 Checkout the agent
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      - name: 🟢 Instalar Node.js
+      - name: 🟢 Install Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "20.x"
 
-      - name: 📦 Instalar dependencias
+      - name: 📦 Install dependencies
         run: npm ci
 
-      - name: 🧪 Verificar variables de entorno
+      - name: 🧪 Verify environment variables
         run: node scripts/check-env.js
 
-      - name: 🔍 Verificar compatibilidad de entorno
+      - name: 🔍 Verify environment compatibility
         run: node scripts/check-compatibility.js
 
-      - name: 🔎 Ejecutar análisis de PRs externos
+      - name: 🔎 Run external PRs analysis
         run: node scripts/scan-external-prs.js
 
-      - name: 📤 Subir PDFs como artifact
+      - name: 📤 Upload PDFs as artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
